@@ -1,5 +1,7 @@
 Kevin Arellano
 
+Group Document: https://docs.google.com/document/d/15nyXf9tQBoMh6tOFW__kPeNe7LhgTVxtQdegMgBcwqY/edit?usp=sharing
+
 **User Scenario 1**  
 Ava is an art major studying at UNC Charlotte. She has been commissioned by friends to draw custom artwork. She has decided to try Niner Exchange to help her reach a broader audience of students.  
    
