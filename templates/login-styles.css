@@ -1,0 +1,64 @@
+body{
+    margin: 0;
+    font-family: 'Cormorant Garamond', serif;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+}
+
+.wrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.login-inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    input{
+        height: 25px;
+        width: 200px;
+        font-size: 10px;
+        letter-spacing: .5px;
+        padding-top: 8px;
+        background-color: rgb(236, 234, 234);
+        border: none; 
+        box-shadow: 0 .5px 0.5px rgb(0, 0, 0);
+    }
+}
+
+input::placeholder {
+    color: black; 
+    opacity: 1; 
+    padding-left: 5px;
+}
+
+.login-buttons{
+    display: flex;
+    gap: 30px;
+    button{
+        height: 50px;
+        width: 86px;
+        font-size: 9px;
+        letter-spacing: .5px;
+        color: white;
+        border-radius: 5px;
+        border: none;
+    }
+}
+
+.signup-button{
+    background-color: #A49665;
+}
+
+.login-button{
+    background-color:  #005035;
+}
+
+
+@media(min-width: 750px){
+
+}
