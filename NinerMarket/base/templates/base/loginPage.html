@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
-    <link rel="stylesheet" href="login-styles.css" />
-  </head>
-  <body>
-    <div class="background"></div>
-    <div class="wrap">
-      <div class="login-inputs">
-        <input
-          type="text"
-          placeholder="Username"
-          id="username"
-          name="username"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          id="password"
-          name="password"
-          required
-        />
-      </div>
-      <div class="login-buttons">
-        <button class="signup-button" type="submit">Sign Up</button>
-        <button class="login-button" type="submit">Login</button>
-      </div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+
+  {% load static %}
+
+
+  <link rel="stylesheet" href="{% static 'base/login-styles.css' %}" />
+</head>
+
+<body>
+  <div class="background"></div>
+  <div class="wrap">
+    <div class="login-inputs">
+      <form method="POST">
+        {% csrf_token %}
+        <div>
+          <input type="text" placeholder="Username" id="username" name="username" required />
+        </div>
+        <br>
+        <div>
+          <input type="password" placeholder="Password" id="password" name="password" required />
+        </div>
     </div>
-  </body>
+    <div class="login-buttons">
+      <button class="signup-button" type="submit">Sign Up</button>
+      <button class="login-button" type="submit">Login</button>
+    </div>
+    </form>
+  </div>
+</body>
+
 </html>
