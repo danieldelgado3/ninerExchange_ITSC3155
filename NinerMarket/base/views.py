@@ -5,5 +5,5 @@ from django.http import HttpResponse
 def home(request): #Home Page View
     return HttpResponse('Home Page') 
 
-def login(request):
+def login(request): #Login page view
     return render(request, 'base/loginPage.html')
