@@ -28,3 +28,6 @@ def login_view(request): #Login page view
     context = {'page': page} #Will be accessible from template (May need to adjust later?)
     return render(request, "base/loginPage.html", context)
 
+
+def settings(request): #Home Page View
+    return render(request, 'base/settings.html')
