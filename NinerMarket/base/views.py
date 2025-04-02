@@ -12,7 +12,7 @@ def login_view(request): #Login page view
     page = 'login'
 
     if request.user.is_authenticated:
-        return redirect('home') #If user is logged in, go to home
+        return redirect('Home') #If user is logged in, go to home
 
     if request.method=="POST":
         username = request.POST.get('username').lower() #get username and password from form
