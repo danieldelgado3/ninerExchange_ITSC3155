@@ -32,7 +32,9 @@
         </div>
       </header>
       <div class="feed">
-        <div class="imageUploads">
+         <form method="POST" enctype="multipart/form-data" action="{% url 'addItemsToDropbox' %}">
+        {% csrf_token %}
+          <div class="imageUploads">
           <div class="feedItem">
             <div class="dotted-box">
               <label class="upload-box">
@@ -99,6 +101,7 @@
           <button class="submitButton" type="submit">Submit Listing</button>
         </div>
       </footer>
+      </form>
     </div>
   </body>
 </html>
