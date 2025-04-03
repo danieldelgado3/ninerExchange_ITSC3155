@@ -29,5 +29,8 @@ def login_view(request): #Login page view
     return render(request, "base/loginPage.html", context)
 
 
-def settings(request): #Home Page View
+def settings(request): #Settings Page View
     return render(request, 'base/settings.html')
+
+def addItems(request): #AddItem Page View
+    return render(request, 'base/addItems.html')
