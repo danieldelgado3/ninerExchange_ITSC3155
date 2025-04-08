@@ -1,1 +1,7 @@
-pip install Pillow django-storages python-dotenv
+pip install Pillow python-dotenv
+pip install cloudinary django-cloudinary-storage
+
+must create an .env file in the root of the directory that contains:
+CLOUDINARY_CLOUD_NAME="dm1hmegmg"
+CLOUDINARY_API_KEY="894683478223129"
+CLOUDINARY_API_SECRET="XY15925mPL4LqJe9tG-pVSNqCCo"

@@ -32,7 +32,7 @@
         </div>
       </header>
       <div class="feed">
-         <form method="POST" enctype="multipart/form-data" action="{% url 'addItemsToDropbox' %}">
+         <form method="POST" enctype="multipart/form-data" action="{% url 'addItemsToCloudinary' %}">
         {% csrf_token %}
           <div class="imageUploads">
           <div class="feedItem">

@@ -2,15 +2,21 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-import dropbox
+
 from django.conf import settings
 from .models import Listing
 from dotenv import load_dotenv, find_dotenv
+import cloudinary
+import cloudinary.uploader
 import os
 
 dotenv_path = find_dotenv()
 load_dotenv(dotenv_path)
-DROPBOX_OAUTH2_TOKEN = os.getenv('ACCESS_TOKEN') 
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
+    api_key=os.getenv('CLOUDINARY_API_KEY'),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET')
+)
 
 
 # Create your views here.
@@ -44,20 +50,28 @@ def settings(request): #Settings Page View
 def addItems(request):
     return render(request, 'base/addItems.html')
 
-def addItemsToDropbox(request): #AddItem Page View
+
+# code only handles the image uploads for now
+def addItemsToCloudinary(request): #AddItem Page View
     if request.method == 'POST' and request.FILES:
-        dropboxObject = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
+        # retrieve the form data (name, description, price)
         name = request.POST.get('name')
         description = request.POST.get('description')
         price = request.POST.get('price') 
 
-        if 'image1' in request.FILES:
-            image1 = request.FILES['image1']
+        # create an empty list for image URLs, each image upload to cloudinary will return 
+        # a url that we store in this list to manipulate the listings
+        image_urls = []
 
-            with image1.open('rb') as f:
-                dropBoxPath = f'/media/{image1.name}'
-                dropboxObject.files_upload(f.read(), dropBoxPath, mute = True)
+        # loop through all files and upload them to Cloudinary
+        for i in range(1, 4):
+            if f'image{i}' in request.FILES:
+                image = request.FILES[f'image{i}']
+                
+                # upload image to Cloudinary and store the url thats returned here
+                upload_result = cloudinary.uploader.upload(image)
+                
+                # get the URL of the uploaded image and adds it to the list
+                image_urls.append(upload_result['url'])
 
-
-        file = request.FILES
     return render(request, 'base/home.html') #need to fix this
