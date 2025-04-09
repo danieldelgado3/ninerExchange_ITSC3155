@@ -74,4 +74,14 @@ def addItemsToCloudinary(request): #AddItem Page View
                 # get the URL of the uploaded image and adds it to the list
                 image_urls.append(upload_result['url'])
 
-    return render(request, 'base/home.html') #need to fix this
+        while len(image_urls) < 3: #None images if user does not upload three images
+            image_urls.append(None)
+
+        Listing.objects.create(
+            name = name, description = description, price = price, image1_url=image_urls[0],
+            image2_url=image_urls[1],  image3_url=image_urls[2],
+        )
+
+
+
+    return redirect('Home')
