@@ -21,7 +21,10 @@ cloudinary.config(
 
 # Create your views here.
 def home(request): #Home Page View
-    return render(request, 'base/home.html')
+    listings = Listing.objects.all()
+    context = {'listings': listings, 'size': listings.count()}
+
+    return render(request, 'base/home.html', context)
 
 def login_view(request): #Login page view
     page = 'login'

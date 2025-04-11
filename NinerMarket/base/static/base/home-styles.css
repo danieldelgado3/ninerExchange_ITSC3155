@@ -64,8 +64,10 @@ header {
   align-items: center;
   justify-content: center;
   gap: 90px;
-  img {
+  .photo {
     border: 1px solid black;
+    height: 120px;
+    width: 135px;
   }
 }
 

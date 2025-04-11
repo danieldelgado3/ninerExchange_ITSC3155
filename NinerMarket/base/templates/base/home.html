@@ -22,55 +22,41 @@
           <h1>Feed</h1>
         </div>
         <div class="header-right">
-          <a href="settings"><img class="menuPic" src="{% static 'images/menu.svg' %}" alt="Open menu" />
+          <a href="settings"
+            ><img
+              class="menuPic"
+              src="{% static 'images/menu.svg' %}"
+              alt="Open menu"
+            />
           </a>
         </div>
       </header>
       <div class="feed">
+        {% for listing in listings %} 
+          {% if forloop.counter0|divisibleby:2 %}
         <div class="feedItemSet">
+          {% endif %}
+
           <div class="feedItem">
-            <img src="{% static 'images/image 1.png' %}" />
-            <h4>Polo Shirt</h4>
-            <p>$12.00</p>
+            <img class="photo" src="{{ listing.image1_url }}" />
+            <h4>{{ listing.name }}</h4>
+            <p>${{ listing.price }}</p>
           </div>
-          <div class="feedItem">
-            <img src="{% static 'images/image 3.png' %}" />
-            <h4>North Face Jacket</h4>
-            <p>$75.00</p>
-          </div>
+
+          {% if forloop.counter|divisibleby:2 or forloop.last %}
         </div>
-        <div class="feedItemSet">
-          <div class="feedItem">
-            <img src="{% static 'images/image 4.png' %}" />
-            <h4>Macbook</h4>
-            <p>$750.00</p>
-          </div>
-          <div class="feedItem">
-            <img src="{% static 'images/image 5.png' %}" />
-            <h4>IPhone</h4>
-            <p>$350.00</p>
-          </div>
-        </div>
-        <div class="feedItemSet">
-          <div class="feedItem">
-            <img src="{% static 'images/image 6.png' %}" />
-            <h4>Mac monitor</h4>
-            <p class="price">$1200.00</p>
-          </div>
-          <div class="feedItem">
-            <img src="{% static 'images/image 7.png' %}" />
-            <h4>Patagonia Jacket</h4>
-            <p>$75.00</p>
-          </div>
-        </div>
+          {% endif %} 
+        {% endfor %}
       </div>
       <footer>
         <div class="options">
-        <img src="{% static 'images/home.png' %}" alt="Home" />
-        <img class="map" src="{% static 'images/map2.png' %}" alt="Maps" />
-        <a href="addItems"><img src="{% static 'images/add.png' %}" alt="Add" /></a> 
-        <img src="{% static 'images/notif.png' %}" alt="Notifications" />
-        <img src="{% static 'images/profile.png' %}" alt="Profile" />
+          <img src="{% static 'images/home.png' %}" alt="Home" />
+          <img class="map" src="{% static 'images/map2.png' %}" alt="Maps" />
+          <a href="addItems"
+            ><img src="{% static 'images/add.png' %}" alt="Add"
+          /></a>
+          <img src="{% static 'images/notif.png' %}" alt="Notifications" />
+          <img src="{% static 'images/profile.png' %}" alt="Profile" />
         </div>
       </footer>
     </div>
