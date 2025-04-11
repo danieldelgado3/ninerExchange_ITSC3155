@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'cloudinary_storage',
 ]
 
+AUTH_USER_MODEL = 'base.CustomUser'
+
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage' 
 
 MIDDLEWARE = [

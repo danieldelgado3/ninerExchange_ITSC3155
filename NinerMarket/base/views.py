@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from .forms import CustomUserCreationForm
 
 from django.conf import settings
 from .models import Listing
@@ -85,6 +86,27 @@ def addItemsToCloudinary(request): #AddItem Page View
             image2_url=image_urls[1],  image3_url=image_urls[2],
         )
 
-
-
     return redirect('Home')
+
+def signup_view(request):
+    form = CustomUserCreationForm()
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.name = user.name.lower()
+            user.save()
+            login(request, user)
+            messages.success(request, "Account created! Welcome to Niner Market!")
+            return redirect('home')
+        else:
+            messages.error(request, "An error occured during registration")
+
+
+    return render(request, 'base/login_register.html', {'form': form})
+
+
+
+    
