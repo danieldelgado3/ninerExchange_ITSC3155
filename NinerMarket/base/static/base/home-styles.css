@@ -76,5 +76,14 @@ footer {
   border-top: 1px solid #ddd;
 }
 
+.map{
+  height: 32px;
+  width: 32px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 4px;
+}
+
+
 @media (min-width: 750px) {
 }
