@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -106,6 +106,14 @@ def signup_view(request):
 
 
     return render(request, 'base/login_register.html', {'form': form})
+
+def listing_detail(request, listing_id):
+    listing = get_object_or_404(Listing, id=listing_id)
+    return render(request, 'base/listing_detail.html', {'listing': listing})
+
+def logout_view(request):
+    logout(request)
+    return redirect('Home')
 
 
 

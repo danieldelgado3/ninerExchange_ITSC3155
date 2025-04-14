@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Your Conversations</h2>
+    <div class="list-group">
+        {% for conversation in conversations %}
+        <a href="{% url 'messaging:conversation_detail' conversation.id %}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ conversation.listing.name }}</h5>
+                <small>{{ conversation.updated_at|timesince }} ago</small>
+            </div>
+            <p class="mb-1">
+                {% for participant in conversation.participants.all %}
+                    {% if participant != user %}
+                        {{ participant.username }}
+                    {% endif %}
+                {% endfor %}
+            </p>
+            {% with last_message=conversation.messages.last %}
+                {% if last_message %}
+                    <small>{{ last_message.content|truncatechars:50 }}</small>
+                {% endif %}
+            {% endwith %}
+        </a>
+        {% empty %}
+        <p>No conversations yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

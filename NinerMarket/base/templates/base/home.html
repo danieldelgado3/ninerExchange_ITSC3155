@@ -1,64 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+{% extends 'base/base.html' %}
 
-    {% load static %}
+{% block title %}Home - NinerMarket{% endblock %}
 
-    <link rel="stylesheet" href="{% static 'base/home-styles.css' %}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="wrap">
-      <header>
-        <div class="middle">
-          <h1>Feed</h1>
-        </div>
-        <div class="header-right">
-          <a href="settings"
-            ><img
-              class="menuPic"
-              src="{% static 'images/menu.svg' %}"
-              alt="Open menu"
-            />
-          </a>
-        </div>
-      </header>
-      <div class="feed">
-        {% for listing in listings %} 
-          {% if forloop.counter0|divisibleby:2 %}
-        <div class="feedItemSet">
-          {% endif %}
+{% block header_title %}Feed{% endblock %}
 
-          <div class="feedItem">
-            <img class="photo" src="{{ listing.image1_url }}" />
-            <h4>{{ listing.name }}</h4>
-            <p>${{ listing.price }}</p>
-          </div>
+{% block content %}
+<div class="feed">
+  {% for listing in listings %} 
+    {% if forloop.counter0|divisibleby:2 %}
+      <div class="feedItemSet">
+    {% endif %}
 
-          {% if forloop.counter|divisibleby:2 or forloop.last %}
-        </div>
-          {% endif %} 
-        {% endfor %}
-      </div>
-      <footer>
-        <div class="options">
-          <img src="{% static 'images/home.png' %}" alt="Home" />
-          <img class="map" src="{% static 'images/map2.png' %}" alt="Maps" />
-          <a href="addItems"
-            ><img src="{% static 'images/add.png' %}" alt="Add"
-          /></a>
-          <img src="{% static 'images/notif.png' %}" alt="Notifications" />
-          <img src="{% static 'images/profile.png' %}" alt="Profile" />
-        </div>
-      </footer>
+    <div class="feedItem">
+      <a href="{% url 'listing_detail' listing.id %}" class="text-decoration-none text-dark">
+        <img class="photo" src="{{ listing.image1_url }}" />
+        <h4>{{ listing.name }}</h4>
+        <p>${{ listing.price }}</p>
+      </a>
     </div>
-  </body>
-</html>
+
+    {% if forloop.counter|divisibleby:2 or forloop.last %}
+      </div>
+    {% endif %} 
+  {% endfor %}
+</div>
+{% endblock %}

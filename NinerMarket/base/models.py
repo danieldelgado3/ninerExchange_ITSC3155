@@ -11,6 +11,10 @@ class Listing(models.Model):
     image1_url = models.URLField() 
     image2_url = models.URLField(blank=True, null=True)
     image3_url = models.URLField(blank=True, null=True)
+    seller = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='listings', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 class CustomUser(AbstractUser): #gives everything django user model has, plus a name field
     name = models.CharField(max_length=200, null=True)

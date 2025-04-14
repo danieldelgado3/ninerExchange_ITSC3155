@@ -1,0 +1,37 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ listing.name }} - NinerMarket{% endblock %}
+
+{% block header_title %}{{ listing.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="{{ listing.image1_url }}" class="img-fluid rounded" alt="{{ listing.name }}">
+                    {% if listing.image2_url %}
+                        <img src="{{ listing.image2_url }}" class="img-fluid rounded mt-2" alt="{{ listing.name }}">
+                    {% endif %}
+                    {% if listing.image3_url %}
+                        <img src="{{ listing.image3_url }}" class="img-fluid rounded mt-2" alt="{{ listing.name }}">
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <h2>{{ listing.name }}</h2>
+                    <p class="text-muted">Listed by {{ listing.seller.username }}</p>
+                    <h3 class="text-primary">${{ listing.price }}</h3>
+                    <p>{{ listing.description }}</p>
+                    
+                    {% if user != listing.seller %}
+                        <a href="{% url 'messaging:start_conversation' listing.id %}" class="btn btn-primary">
+                            Message Seller
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
