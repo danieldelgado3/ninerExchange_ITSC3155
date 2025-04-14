@@ -18,3 +18,12 @@ class Listing(models.Model):
 
 class CustomUser(AbstractUser): #gives everything django user model has, plus a name field
     name = models.CharField(max_length=200, null=True)
+
+class CampusLocation(models.Model):
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+
+    def __str__(self):
+        return self.name
