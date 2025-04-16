@@ -16,6 +16,13 @@ header {
   
 }
 
+.logo{
+  width: 50px;
+  height: 50px;
+  margin-left: 13px;
+  margin-bottom: 20px;
+}
+
 .middle {
   position: absolute;
   display: flex;
@@ -37,7 +44,7 @@ header {
 .header-right {
   display: flex;
   align-items: center;
-  margin-left: 370px;
+  margin-left: 300px;
   margin-top: -10px;
 }
 
@@ -50,6 +57,10 @@ footer {
   position: fixed;
   z-index: 1000;
     bottom: 0;
+    left: 0;
+  width: 100%;
+  margin-bottom: 4px;
+  background-color: white;
 }
 
 .map{
