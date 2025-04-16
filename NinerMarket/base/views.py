@@ -50,14 +50,17 @@ def login_view(request): #Login page view
     return render(request, "base/loginPage.html", context)
 
 
+@login_required
 def settings(request): #Settings Page View
     return render(request, 'base/settings.html')
 
+@login_required
 def addItems(request):
     return render(request, 'base/addItems.html')
 
 
 # code only handles the image uploads for now
+@login_required
 def addItemsToCloudinary(request): #AddItem Page View
     if request.method == 'POST' and request.FILES:
         # retrieve the form data (name, description, price)
@@ -90,9 +93,11 @@ def addItemsToCloudinary(request): #AddItem Page View
 
         return redirect('Home')
 
+@login_required
 def campusPickup(request):
     locations = CampusLocation.objects.all()
     return render(request, 'base/campusPickup.html', {'locations': locations})
+
 
 def signup_view(request):
     form = CustomUserCreationForm()
@@ -113,10 +118,12 @@ def signup_view(request):
 
     return render(request, 'base/login_register.html', {'form': form})
 
+@login_required
 def listing_detail(request, listing_id):
     listing = get_object_or_404(Listing, id=listing_id)
     return render(request, 'base/listing_detail.html', {'listing': listing})
 
+@login_required
 def logout_view(request):
     logout(request)
     return redirect('Home')
