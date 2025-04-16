@@ -41,14 +41,6 @@ header {
   margin-top: -10px;
 }
 
-.welcome{
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
 
 footer {
   display: flex;

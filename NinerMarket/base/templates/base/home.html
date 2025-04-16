@@ -10,6 +10,16 @@
 
 
 {% block content %}
+      <div class="welcome">
+              {% if user.is_authenticated %}
+            <span style="margin-right: 15px;">Welcome, {{ user.username }}!</span>
+            <a href="{% url 'logout' %}" style="margin-right: 15px;">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}" style="margin-right: 15px;">Login</a>
+            <a href="{% url 'signup' %}" style="margin-right: 15px;">Sign Up</a>
+          {% endif %}
+          </div>
+
 <div class="feed">
   {% for listing in listings %} 
     {% if forloop.counter0|divisibleby:2 %}
