@@ -1,8 +1,13 @@
 {% extends 'base/base.html' %}
-
+{% load static %}
 {% block title %}Home - NinerMarket{% endblock %}
 
 {% block header_title %}Feed{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'base/home-styles.css' %}">
+{% endblock %}
+
 
 {% block content %}
 <div class="feed">
@@ -14,8 +19,10 @@
     <div class="feedItem">
       <a href="{% url 'listing_detail' listing.id %}" class="text-decoration-none text-dark">
         <img class="photo" src="{{ listing.image1_url }}" />
+        <div class="text">
         <h4>{{ listing.name }}</h4>
         <p>${{ listing.price }}</p>
+        </div>
       </a>
     </div>
 

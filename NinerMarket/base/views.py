@@ -87,6 +87,8 @@ def addItemsToCloudinary(request): #AddItem Page View
             image2_url=image_urls[1],  image3_url=image_urls[2],
         )
 
+        return redirect('Home')
+
 def campusPickup(request):
     locations = CampusLocation.objects.all()
     return render(request, 'base/campusPickup.html', {'locations': locations})

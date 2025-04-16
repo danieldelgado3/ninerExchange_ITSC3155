@@ -3,62 +3,52 @@ body {
   margin: 0;
   font-family: "Inter", sans-serif;
   font-style: normal;
- 
 }
 
 header {
   position: relative;
   display: flex;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 30px;
   padding: 10px 5px;
   border-bottom: 1px solid #ddd;
-  height: 30px;
+  height: 36px;
+  
 }
 
 .middle {
   position: absolute;
+  display: flex;
+  justify-content: center;
   left: 50%;
-  transform: translateX(-50%); 
-  margin-top: 5px;
+  transform: translateX(-50%); /* Centers the text */
   h1 {
     font-size: 17px;
     letter-spacing: 0.2px;
-    font-weight: 600;
+    font-weight: 800;
   }
 }
 
-.settings {
-  margin-top: 20px;
-  height: 750px;
-  h1 {
-    margin-left: 10px;
-    font-size: 16px;
-  }
-  p {
-    margin-left: 15px;
-    font-size: 12px;
-  }
-}
-
-.option {
-  border-bottom: 1px solid #ddd;
-  display: flex;
-
-  align-items: center;
-  img {
-    position: absolute;
-    height: 20px;
-    margin-left: 375px;
-  }
+.menuPic {
+  height: 24px;
+  width: 24px;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  margin-right: auto;
-  margin-top: 0.5rem;
+  margin-left: 370px;
+  margin-top: -10px;
 }
+
+.welcome{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 
 footer {
   display: flex;
@@ -72,7 +62,7 @@ footer {
   width: 32px;
   margin-left: 20px;
   margin-right: 20px;
-  margin-bottom: 4px;
+  margin-bottom: -3px;
 }
 
 
