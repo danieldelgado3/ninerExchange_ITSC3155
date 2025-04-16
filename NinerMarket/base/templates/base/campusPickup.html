@@ -1,86 +1,121 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>UNC Charlotte Campus Map</title>
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
-        #map {
-            
-            height: 90vh;
-            width: 100%;
-        }
+      #map {
+        height: 90vh;
+        width: 100%;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Wrap the image and title in a flexbox container -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-        <div style = "display: flex; align-items: center; gap : 10px;">
-            <a href="settings">
-                <img class="menuPic" src="{% static 'images/menu.svg' %}" alt="Open menu" style="height: 40px;" />
-            </a>
-            <h1 style="margin: 0;">UNC Charlotte Campus Map</h1>
-        </div>
-        <div>
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      "
+    >
+      <div style="display: flex; align-items: center; gap: 10px">
         <a href="settings">
-            <img class="Niner_Market" src="{% static 'images/Niner_Market.png' %}" alt="Open menu" style="height: 100px;" />
+          <img
+            class="menuPic"
+            src="{% static 'images/menu.svg' %}"
+            alt="Open menu"
+            style="height: 40px"
+          />
         </a>
-        </div>
+        <h1 style="margin: 0">UNC Charlotte Campus Map</h1>
+      </div>
+      <div>
+        <a href="{% url 'Home' %}">
+          <img
+            class="Niner_Market"
+            src="{% static 'images/Niner_Market.png' %}"
+            alt="Open menu"
+            style="height: 100px"
+          />
+        </a>
+      </div>
     </div>
 
     <div id="map"></div>
-
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
-        // Set up the map using Leaflet CRS.Simple (image coordinates)
-        const map = L.map('map', {
-            crs: L.CRS.Simple,
-            minZoom: -1
-        });
+      // Set up the map using Leaflet CRS.Simple (image coordinates)
+      const map = L.map("map", {
+        crs: L.CRS.Simple,
+        minZoom: -1,
+      });
 
-        // Set bounds to match your image dimensions in pixels
-        const bounds = [[0, 0], [1500, 2000]]; // Adjust based on your image dimensions
+      // Set bounds to match your image dimensions in pixels
+      const bounds = [
+        [0, 0],
+        [1500, 2000],
+      ]; // Adjust based on your image dimensions
 
-        // Load the campus map image from static files
-        const image = L.imageOverlay("{% static 'images/campus_map.png' %}", bounds).addTo(map);
-        map.fitBounds(bounds);
+      // Load the campus map image from static files
+      const image = L.imageOverlay(
+        "{% static 'images/campus_map.png' %}",
+        bounds
+      ).addTo(map);
+      map.fitBounds(bounds);
 
-        // Example marker positions — these are pixel coordinates relative to the image
-        const locations = [
-            { name: "Student Union", coords: [300, 850], address: "8845 CRAVER RD, Charlotte NC 28223", },
-            { name: "Epic Building", coords: [420, 950], address: "8700 PHILLIPS RD, Charlotte NC 28223", },
-            { name: "Atkins Library", coords: [370, 780], address: "410 LIBRARY LN, Charlotte NC 28223", },
-            { name: "Star Quad", coords: [500, 700] },
-            // Add more buildings here
-        ];
+      // Example marker positions — these are pixel coordinates relative to the image
+      const locations = [
+        {
+          name: "Student Union",
+          coords: [300, 850],
+          address: "8845 CRAVER RD, Charlotte NC 28223",
+        },
+        {
+          name: "Epic Building",
+          coords: [420, 950],
+          address: "8700 PHILLIPS RD, Charlotte NC 28223",
+        },
+        {
+          name: "Atkins Library",
+          coords: [370, 780],
+          address: "410 LIBRARY LN, Charlotte NC 28223",
+        },
+        { name: "Star Quad", coords: [500, 700] },
+        // Add more buildings here
+      ];
 
-        // Add markers to the map
-        locations.forEach(loc => {
-            const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.address)}`;
-            
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      // Add markers to the map
+      locations.forEach((loc) => {
+        const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          loc.address
+        )}`;
 
-            const mapsUrl = isIOS
-            ? `http://maps.apple.com/?q=${encodeURIComponent(loc.address)}`
-            : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc.address)}`;
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-            const popupContent = `
+        const mapsUrl = isIOS
+          ? `http://maps.apple.com/?q=${encodeURIComponent(loc.address)}`
+          : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+              loc.address
+            )}`;
+
+        const popupContent = `
                 <strong>${loc.name}</strong><br>
                 ${loc.address}<br>
                 <a href="${googleMapsUrl}" target="_blank">Open in Google Maps</a><br>
                 <a href="${mapsUrl}" target="_blank">Open in Maps</a>
             `;
 
-            L.marker(loc.coords)
-                .addTo(map)
-                .bindPopup(popupContent);
-        });
+        L.marker(loc.coords).addTo(map).bindPopup(popupContent);
+      });
     </script>
-</body>
+  </body>
 </html>
