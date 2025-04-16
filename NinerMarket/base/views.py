@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import CustomUserCreationForm
-
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .models import Listing
 from .models import CampusLocation
@@ -22,6 +22,7 @@ cloudinary.config(
 
 
 # Create your views here.
+@login_required
 def home(request): #Home Page View
     listings = Listing.objects.all()
     context = {'listings': listings, 'size': listings.count()}
