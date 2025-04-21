@@ -1,0 +1,141 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Profile - NinerMarket{% endblock %}
+
+{% block header_title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <div class="profile-picture mb-3">
+                        <img src="{{ user.get_profile_picture_url }}" alt="Profile Picture" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                        <button class="btn btn-outline-primary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#profilePictureModal">
+                            Change Picture
+                        </button>
+                    </div>
+                    <h4>{{ user.username }}</h4>
+                    <p class="text-muted">{{ user.email }}</p>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'settings' %}" class="btn btn-outline-primary">Edit Profile</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Account Stats</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Listings
+                            <span class="badge bg-primary rounded-pill">{{ user.listings.count }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Messages
+                            <span class="badge bg-primary rounded-pill">{{ user.conversations.count }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Member Since
+                            <span>{{ user.date_joined|date:"F Y" }}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Your Listings</h5>
+                </div>
+                <div class="card-body">
+                    {% if user.listings.all %}
+                        <div class="row">
+                            {% for listing in user.listings.all %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        <img src="{{ listing.image1_url }}" class="card-img-top" alt="{{ listing.name }}" style="height: 200px; object-fit: cover;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ listing.name }}</h5>
+                                            <p class="card-text">${{ listing.price }}</p>
+                                            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary btn-sm">View Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">You haven't created any listings yet.</p>
+                        <a href="{% url 'addItems' %}" class="btn btn-primary">Create Your First Listing</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        {% for conversation in user.conversations.all|slice:":5" %}
+                            <a href="{% url 'messaging:conversation_detail' conversation.id %}" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Conversation about {{ conversation.listing.name }}</h6>
+                                    <small>{{ conversation.updated_at|timesince }} ago</small>
+                                </div>
+                                <p class="mb-1">{{ conversation.messages.last.content|truncatechars:50 }}</p>
+                            </a>
+                        {% empty %}
+                            <p class="text-muted">No recent conversations.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Profile Picture Modal -->
+<div class="modal fade" id="profilePictureModal" tabindex="-1" aria-labelledby="profilePictureModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profilePictureModalLabel">Change Profile Picture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="profilePicture" class="form-label">Select a new profile picture</label>
+                        <input class="form-control" type="file" id="profilePicture" name="profile_picture" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-picture {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .profile-picture img {
+        border: 3px solid #007bff;
+    }
+    
+    .card {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .list-group-item:hover {
+        background-color: #f8f9fa;
+    }
+</style>
+{% endblock %} 

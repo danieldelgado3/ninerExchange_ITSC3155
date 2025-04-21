@@ -18,3 +18,9 @@ class Listing(models.Model):
 
 class CustomUser(AbstractUser): #gives everything django user model has, plus a name field
     name = models.CharField(max_length=200, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+
+    def get_profile_picture_url(self):
+        if self.profile_picture:
+            return self.profile_picture.url
+        return '/static/images/profile.png'

@@ -23,27 +23,29 @@ cloudinary.config(
 # Create your views here.
 def home(request): #Home Page View
     listings = Listing.objects.all()
+    # Add debug information
+    print(f"Total listings: {listings.count()}")
+    for listing in listings:
+        print(f"Listing: {listing.name}, ID: {listing.id}, Seller: {listing.seller.username}")
+    
     context = {'listings': listings, 'size': listings.count()}
-
     return render(request, 'base/home.html', context)
 
 def login_view(request): #Login page view
     page = 'login'
 
     if request.user.is_authenticated:
-        return redirect('Home') #If user is logged in, go to home
+        return redirect('base:Home') #If user is logged in, go to home
 
-    if request.method=="POST":
-        username = request.POST.get('username').lower() #get username and password from form
+    if request.method == 'POST':
+        username = request.POST.get('username')
         password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password) # user object from form
-
-        if user is not None: #if user exist
-            login(request, user) #Call django login method
-            return redirect('Home') #Redirect user to home page
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('Home')
         else:
-            messages.error(request, 'Username or Password does not exist!') #User login failed
-
+            messages.error(request, 'Invalid username or password.')
     context = {'page': page} #Will be accessible from template (May need to adjust later?)
     return render(request, "base/loginPage.html", context)
 
@@ -57,54 +59,95 @@ def addItems(request):
 
 # code only handles the image uploads for now
 def addItemsToCloudinary(request): #AddItem Page View
-    if request.method == 'POST' and request.FILES:
-        # retrieve the form data (name, description, price)
+    if request.method == 'POST':
+        # Validate required fields
         name = request.POST.get('name')
         description = request.POST.get('description')
-        price = request.POST.get('price') 
+        price = request.POST.get('price')
 
-        # create an empty list for image URLs, each image upload to cloudinary will return 
-        # a url that we store in this list to manipulate the listings
+        if not all([name, description, price]):
+            messages.error(request, "All fields are required")
+            return redirect('addItems')
+
+        try:
+            price = float(price)
+            if price <= 0:
+                raise ValueError("Price must be greater than 0")
+        except ValueError:
+            messages.error(request, "Please enter a valid price")
+            return redirect('addItems')
+
+        if not request.FILES:
+            messages.error(request, "At least one image is required")
+            return redirect('addItems')
+
+        # create an empty list for image URLs
         image_urls = []
 
         # loop through all files and upload them to Cloudinary
         for i in range(1, 4):
             if f'image{i}' in request.FILES:
-                image = request.FILES[f'image{i}']
-                
-                # upload image to Cloudinary and store the url thats returned here
-                upload_result = cloudinary.uploader.upload(image)
-                
-                # get the URL of the uploaded image and adds it to the list
-                image_urls.append(upload_result['url'])
+                try:
+                    image = request.FILES[f'image{i}']
+                    # Validate file type
+                    if not image.content_type.startswith('image/'):
+                        messages.error(request, f"File {i} must be an image")
+                        return redirect('addItems')
+                    
+                    # Validate file size (max 5MB)
+                    if image.size > 5 * 1024 * 1024:
+                        messages.error(request, f"Image {i} is too large. Maximum size is 5MB")
+                        return redirect('addItems')
 
-        while len(image_urls) < 3: #None images if user does not upload three images
+                    # upload image to Cloudinary
+                    upload_result = cloudinary.uploader.upload(
+                        image,
+                        folder="niner_market",  # Organize images in a folder
+                        resource_type="image"
+                    )
+                    image_urls.append(upload_result['url'])
+                except Exception as e:
+                    messages.error(request, f"Error uploading image {i}: {str(e)}")
+                    return redirect('addItems')
+
+        # Fill remaining slots with None if less than 3 images
+        while len(image_urls) < 3:
             image_urls.append(None)
 
-        Listing.objects.create(
-            name = name, description = description, price = price, image1_url=image_urls[0],
-            image2_url=image_urls[1],  image3_url=image_urls[2],
-        )
-
-    return redirect('Home')
+        try:
+            # Create the listing with the current user as seller
+            listing = Listing.objects.create(
+                name=name,
+                description=description,
+                price=price,
+                image1_url=image_urls[0],
+                image2_url=image_urls[1],
+                image3_url=image_urls[2],
+                seller=request.user
+            )
+            messages.success(request, f"Listing '{name}' created successfully!")
+            return redirect('listing_detail', listing_id=listing.id)
+        except Exception as e:
+            messages.error(request, f"Error creating listing: {str(e)}")
+            return redirect('addItems')
+    else:
+        messages.error(request, "Invalid request method")
+        return redirect('addItems')
 
 def signup_view(request):
-    form = CustomUserCreationForm()
-
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.username = user.username.lower()
-            user.name = user.name.lower()
-            user.save()
+            user = form.save()
             login(request, user)
-            messages.success(request, "Account created! Welcome to Niner Market!")
-            return redirect('home')
+            messages.success(request, 'Account created successfully!')
+            return redirect('Home')
         else:
-            messages.error(request, "An error occured during registration")
-
-
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+    else:
+        form = CustomUserCreationForm()
     return render(request, 'base/login_register.html', {'form': form})
 
 def listing_detail(request, listing_id):
@@ -114,6 +157,57 @@ def listing_detail(request, listing_id):
 def logout_view(request):
     logout(request)
     return redirect('Home')
+
+def profile(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
+    if request.method == 'POST' and 'profile_picture' in request.FILES:
+        try:
+            # Upload the image to Cloudinary
+            image = request.FILES['profile_picture']
+            
+            # Validate file type
+            if not image.content_type.startswith('image/'):
+                messages.error(request, "File must be an image")
+                return redirect('profile')
+            
+            # Validate file size (max 5MB)
+            if image.size > 5 * 1024 * 1024:
+                messages.error(request, "Image is too large. Maximum size is 5MB")
+                return redirect('profile')
+            
+            # Upload to Cloudinary
+            upload_result = cloudinary.uploader.upload(
+                image,
+                folder="niner_market/profile_pictures",
+                resource_type="image"
+            )
+            
+            # Update user's profile picture
+            request.user.profile_picture = upload_result['url']
+            request.user.save()
+            
+            messages.success(request, "Profile picture updated successfully!")
+        except Exception as e:
+            messages.error(request, f"Error updating profile picture: {str(e)}")
+    
+    return render(request, 'base/profile.html')
+
+def campus_pickup_points(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    return render(request, 'base/campus_pickup_points.html')
+
+def map_view(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    return render(request, 'base/map.html')
+
+def notifications(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    return render(request, 'base/notifications.html')
 
 
 

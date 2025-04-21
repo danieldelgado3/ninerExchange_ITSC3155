@@ -10,7 +10,37 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
-      rel="styleshee 
+      rel="stylesheet"
+    />
+    <style>
+      .option {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      .option:hover {
+        background-color: #f5f5f5;
+      }
+      .option a {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+      }
+      .footer-option {
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+      .footer-option:hover {
+        opacity: 0.8;
+      }
+    </style>
   </head>
   <body>
     <div class="wrap">
@@ -25,21 +55,25 @@
       <div class="settings">
         <h1>My Account</h1>
         <div class="option">
-          <p>Profile</p>
-          <img src="{% static 'images/Chevron_Right.png' %}" alt="select" />
+          <a href="{% url 'profile' %}">
+            <p>Profile</p>
+            <img src="{% static 'images/Chevron_Right.png' %}" alt="select" />
+          </a>
         </div>
         <div class="option">
-          <p>Campus Pickup Points</p>
-          <img src="{% static 'images/Chevron_Right.png' %}" alt="select" />
+          <a href="{% url 'campus_pickup_points' %}">
+            <p>Campus Pickup Points</p>
+            <img src="{% static 'images/Chevron_Right.png' %}" alt="select" />
+          </a>
         </div>
       </div>
       <footer>
         <div class="options">
-        <img src="{% static 'images/home.png' %}" alt="Home" />
-        <img class="map" src="{% static 'images/map2.png' %}" alt="Maps" />
-        <img src="{% static 'images/add.png' %}" alt="Add" />
-        <img src="{% static 'images/notif.png' %}" alt="Notifications" />
-        <img src="{% static 'images/profile.png' %}" alt="Profile" />
+          <a href="{% url 'Home' %}" class="footer-option"><img src="{% static 'images/home.png' %}" alt="Home" /></a>
+          <a href="{% url 'map' %}" class="footer-option"><img class="map" src="{% static 'images/map2.png' %}" alt="Maps" /></a>
+          <a href="{% url 'addItems' %}" class="footer-option"><img src="{% static 'images/add.png' %}" alt="Add" /></a>
+          <a href="{% url 'notifications' %}" class="footer-option"><img src="{% static 'images/notif.png' %}" alt="Notifications" /></a>
+          <a href="{% url 'profile' %}" class="footer-option"><img src="{% static 'images/profile.png' %}" alt="Profile" /></a>
         </div>
       </footer>
     </div>
