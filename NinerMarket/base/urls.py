@@ -10,6 +10,7 @@ urlpatterns = [
     path('addItemsToCloudinary/', views.addItemsToCloudinary, name='addItemsToCloudinary'), #addItem page URL
     path('signup/', views.signup_view, name = 'signup'),
     path('listing/<int:listing_id>/', views.listing_detail, name='listing_detail'),
+    path('listing/<int:listing_id>/delete/', views.delete_listing, name='delete_listing'),
     path('profile/', views.profile, name='profile'),
     path('campus-pickup-points/', views.campus_pickup_points, name='campus_pickup_points'),
     path('map/', views.map_view, name='map'),

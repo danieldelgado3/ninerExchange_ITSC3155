@@ -8,7 +8,9 @@
 {% block content %}
 <div class="container mt-4">
     <div class="row">
+        <!-- Left Column - Profile Info -->
         <div class="col-md-4">
+            <!-- Profile Card -->
             <div class="card mb-4">
                 <div class="card-body text-center">
                     <div class="profile-picture mb-3">
@@ -25,6 +27,7 @@
                 </div>
             </div>
 
+            <!-- Stats Card -->
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Account Stats</h5>
@@ -46,10 +49,13 @@
             </div>
         </div>
 
+        <!-- Right Column - Listings and Activity -->
         <div class="col-md-8">
+            <!-- Listings Card -->
             <div class="card mb-4">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Your Listings</h5>
+                    <a href="{% url 'addItems' %}" class="btn btn-primary btn-sm">Add New Listing</a>
                 </div>
                 <div class="card-body">
                     {% if user.listings.all %}
@@ -61,19 +67,27 @@
                                         <div class="card-body">
                                             <h5 class="card-title">{{ listing.name }}</h5>
                                             <p class="card-text">${{ listing.price }}</p>
-                                            <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary btn-sm">View Details</a>
+                                            <div class="d-flex justify-content-between">
+                                                <a href="{% url 'listing_detail' listing.id %}" class="btn btn-primary btn-sm">View Details</a>
+                                                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ listing.id }}">
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             {% endfor %}
                         </div>
                     {% else %}
-                        <p class="text-muted">You haven't created any listings yet.</p>
-                        <a href="{% url 'addItems' %}" class="btn btn-primary">Create Your First Listing</a>
+                        <div class="text-center py-4">
+                            <p class="text-muted">You haven't created any listings yet.</p>
+                            <a href="{% url 'addItems' %}" class="btn btn-primary">Create Your First Listing</a>
+                        </div>
                     {% endif %}
                 </div>
             </div>
 
+            <!-- Recent Activity Card -->
             <div class="card">
                 <div class="card-header">
                     <h5 class="mb-0">Recent Activity</h5>
@@ -120,6 +134,30 @@
     </div>
 </div>
 
+<!-- Delete Listing Modals -->
+{% for listing in user.listings.all %}
+<div class="modal fade" id="deleteModal{{ listing.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ listing.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel{{ listing.id }}">Delete Listing</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete "{{ listing.name }}"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="post" action="{% url 'delete_listing' listing.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 <style>
     .profile-picture {
         position: relative;
@@ -132,10 +170,20 @@
     
     .card {
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border: none;
     }
     
     .list-group-item:hover {
         background-color: #f8f9fa;
+    }
+    
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid rgba(0,0,0,.125);
+    }
+    
+    .badge {
+        font-size: 0.9em;
     }
 </style>
 {% endblock %} 

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm
 
 from django.conf import settings
@@ -158,10 +159,8 @@ def logout_view(request):
     logout(request)
     return redirect('Home')
 
+@login_required
 def profile(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    
     if request.method == 'POST' and 'profile_picture' in request.FILES:
         try:
             # Upload the image to Cloudinary
@@ -192,7 +191,16 @@ def profile(request):
         except Exception as e:
             messages.error(request, f"Error updating profile picture: {str(e)}")
     
-    return render(request, 'base/profile.html')
+    # Get user's listings and conversations
+    listings = request.user.listings.all()
+    conversations = request.user.conversations.all().order_by('-updated_at')[:5]
+    
+    context = {
+        'listings': listings,
+        'conversations': conversations
+    }
+    
+    return render(request, 'base/profile.html', context)
 
 def campus_pickup_points(request):
     if not request.user.is_authenticated:
@@ -208,6 +216,35 @@ def notifications(request):
     if not request.user.is_authenticated:
         return redirect('login')
     return render(request, 'base/notifications.html')
+
+@login_required
+def delete_listing(request, listing_id):
+    listing = get_object_or_404(Listing, id=listing_id)
+    
+    # Check if the user owns the listing
+    if listing.seller != request.user:
+        messages.error(request, "You don't have permission to delete this listing.")
+        return redirect('profile')
+    
+    try:
+        # Delete images from Cloudinary
+        if listing.image1_url:
+            public_id = listing.image1_url.split('/')[-1].split('.')[0]
+            cloudinary.uploader.destroy(public_id)
+        if listing.image2_url:
+            public_id = listing.image2_url.split('/')[-1].split('.')[0]
+            cloudinary.uploader.destroy(public_id)
+        if listing.image3_url:
+            public_id = listing.image3_url.split('/')[-1].split('.')[0]
+            cloudinary.uploader.destroy(public_id)
+        
+        # Delete the listing
+        listing.delete()
+        messages.success(request, "Listing deleted successfully.")
+    except Exception as e:
+        messages.error(request, f"Error deleting listing: {str(e)}")
+    
+    return redirect('profile')
 
 
 
