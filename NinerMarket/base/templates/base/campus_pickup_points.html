@@ -1,0 +1,50 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Campus Pickup Points - NinerMarket{% endblock %}
+
+{% block header_title %}Campus Pickup Points{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2>Campus Pickup Points</h2>
+            <div class="pickup-points">
+                <div class="pickup-point">
+                    <h4>Student Union</h4>
+                    <p>Location: Main entrance</p>
+                    <p>Hours: 9:00 AM - 5:00 PM</p>
+                </div>
+                <div class="pickup-point">
+                    <h4>Library</h4>
+                    <p>Location: Front desk</p>
+                    <p>Hours: 8:00 AM - 8:00 PM</p>
+                </div>
+                <div class="pickup-point">
+                    <h4>College of Computing</h4>
+                    <p>Location: Building entrance</p>
+                    <p>Hours: 10:00 AM - 4:00 PM</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <a href="{% url 'settings' %}" class="btn btn-secondary">Back to Settings</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .pickup-point {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+    }
+    .pickup-point h4 {
+        color: #007bff;
+    }
+    .pickup-point p {
+        margin-bottom: 5px;
+    }
+</style>
+{% endblock %} 

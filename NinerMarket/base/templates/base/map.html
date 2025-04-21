@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Map - NinerMarket{% endblock %}
+
+{% block header_title %}Campus Map{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2>Campus Map</h2>
+            <div class="map-container">
+                <img src="{% static 'images/map2.png' %}" alt="Campus Map" class="img-fluid">
+            </div>
+            <div class="pickup-points mt-4">
+                <h4>Key Locations</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">Student Union - Main pickup point</li>
+                    <li class="list-group-item">Library - Secondary pickup point</li>
+                    <li class="list-group-item">College of Computing - Tech pickup point</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .map-container {
+        margin: 20px 0;
+        text-align: center;
+    }
+    .map-container img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+</style>
+{% endblock %} 

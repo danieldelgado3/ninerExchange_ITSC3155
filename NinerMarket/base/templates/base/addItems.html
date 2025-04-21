@@ -14,6 +14,31 @@
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
       rel="stylesheet"
     />
+    <style>
+      .preview-container {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        margin-bottom: 10px;
+      }
+      .preview-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+      .remove-preview {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(255, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
     <div class="wrap">
@@ -32,17 +57,22 @@
         </div>
       </header>
       <div class="feed">
-         <form method="POST" enctype="multipart/form-data" action="{% url 'addItemsToCloudinary' %}">
+         <form method="POST" enctype="multipart/form-data" action="{% url 'addItemsToCloudinary' %}" id="listingForm">
         {% csrf_token %}
           <div class="imageUploads">
           <div class="feedItem">
             <div class="dotted-box">
-              <label class="upload-box">
+              <div class="preview-container" id="preview1" style="display: none;">
+                <img class="preview-image" id="previewImage1" src="" alt="Preview">
+                <button type="button" class="remove-preview" onclick="removeImage(1)">×</button>
+              </div>
+              <label class="upload-box" id="uploadLabel1">
                 <input
                   class="fileUpload"
                   type="file"
                   name="image1"
                   accept="image/*"
+                  onchange="previewImage(this, 1)"
                 />
                 <img src="{% static 'images/Camera.png' %}" />
               </label>
@@ -50,12 +80,17 @@
           </div>
           <div class="feedItem">
             <div class="dotted-box">
-              <label class="upload-box">
+              <div class="preview-container" id="preview2" style="display: none;">
+                <img class="preview-image" id="previewImage2" src="" alt="Preview">
+                <button type="button" class="remove-preview" onclick="removeImage(2)">×</button>
+              </div>
+              <label class="upload-box" id="uploadLabel2">
                 <input
                   class="fileUpload"
                   type="file"
                   name="image2"
                   accept="image/*"
+                  onchange="previewImage(this, 2)"
                 />
                 <img src="{% static 'images/Camera.png' %}" />
               </label>
@@ -63,12 +98,17 @@
           </div>
           <div class="feedItem">
             <div class="dotted-box">
-              <label class="upload-box">
+              <div class="preview-container" id="preview3" style="display: none;">
+                <img class="preview-image" id="previewImage3" src="" alt="Preview">
+                <button type="button" class="remove-preview" onclick="removeImage(3)">×</button>
+              </div>
+              <label class="upload-box" id="uploadLabel3">
                 <input
                   class="fileUpload"
                   type="file"
                   name="image3"
                   accept="image/*"
+                  onchange="previewImage(this, 3)"
                 />
                 <img src="{% static 'images/Camera.png' %}" />
               </label>
@@ -103,5 +143,54 @@
       </footer>
       </form>
     </div>
+
+    <script>
+      function previewImage(input, number) {
+        const preview = document.getElementById(`preview${number}`);
+        const previewImage = document.getElementById(`previewImage${number}`);
+        const uploadLabel = document.getElementById(`uploadLabel${number}`);
+        
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          
+          reader.onload = function(e) {
+            previewImage.src = e.target.result;
+            preview.style.display = 'block';
+            uploadLabel.style.display = 'none';
+          }
+          
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      function removeImage(number) {
+        const preview = document.getElementById(`preview${number}`);
+        const previewImage = document.getElementById(`previewImage${number}`);
+        const uploadLabel = document.getElementById(`uploadLabel${number}`);
+        const fileInput = document.querySelector(`input[name="image${number}"]`);
+        
+        preview.style.display = 'none';
+        uploadLabel.style.display = 'block';
+        fileInput.value = '';
+        previewImage.src = '';
+      }
+
+      // Form validation
+      document.getElementById('listingForm').addEventListener('submit', function(e) {
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        let hasImage = false;
+        
+        fileInputs.forEach(input => {
+          if (input.files.length > 0) {
+            hasImage = true;
+          }
+        });
+        
+        if (!hasImage) {
+          e.preventDefault();
+          alert('Please upload at least one image');
+        }
+      });
+    </script>
   </body>
 </html>
