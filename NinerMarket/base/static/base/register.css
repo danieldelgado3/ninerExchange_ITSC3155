@@ -1,0 +1,63 @@
+body {
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+}
+
+.wrap {
+margin-top: 30px;
+  overflow: hidden;
+}
+
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+   margin-top: 50px;
+    margin-bottom: 70px;
+  h1 {
+    margin-bottom: 0.01rem;
+    font-weight: 350;
+  }
+  h3 {
+    font-weight: 250;
+  }
+}
+
+.messages p{
+  color: red !important;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.inputSet {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  gap: 10px;
+  select,
+  input {
+    padding: 10px 14px;
+    border: 2px solid #fedada;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+  }
+  label {
+    font-size: 15px;
+  }
+}
+
+button {
+  background-color: black;
+  color: white;
+  font-size: 18px;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}

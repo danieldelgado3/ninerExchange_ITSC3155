@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    {% load static %}
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'base/register.css' %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <a href="{% url 'login' %}"><img src="{% static 'images/Chevron_Left.png' %}" alt="select" /></a>
+      </header>
+      <div class="welcome">
+        <h1>Welcome To NinerMarket</h1>
+        <h3>Create an account</h3>
+      </div>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="inputSet">
+          <label for="university">Please select your University</label>
+          <select id="options" name="options">
+            {% for uni in universities %}
+            <option value="{{ uni.id }}">{{ uni.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+                <div class="inputSet">
+          <label for="email">Enter your name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+          />
+        </div>
+
+            <div class="inputSet">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required />
+    </div>
+
+        <div class="inputSet">
+          <label for="email">Enter your school email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="you@charlotte.edu"
+          />
+        </div>
+
+        <div class="inputSet">
+          <label for="password1">Enter your password</label>
+          <input
+            type="password"
+            id="password1"
+            name="password1"
+            required
+            minlength="8"
+          />
+        </div>
+
+        <div class="inputSet">
+          <label for="password2">Confirm your password</label>
+          <input
+            type="password"
+            id="password2"
+            name="password2"
+            required
+            minlength="8"
+          />
+        </div>
+        <button type="submit">Register</button>
+      </form>
+
+      {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
