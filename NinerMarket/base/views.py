@@ -203,6 +203,10 @@ def profile(request):
     
     return render(request, 'base/profile.html', context)
 
+def campusPickup(request):
+    locations = CampusLocation.objects.all()
+    return render(request, 'base/campusPickup.html', {'locations': locations})
+
 def campus_pickup_points(request):
     if not request.user.is_authenticated:
         return redirect('login')
