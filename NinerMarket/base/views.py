@@ -5,7 +5,7 @@ from django.contrib import messages
 from .forms import CustomUserCreationForm
 
 from django.conf import settings
-from .models import Listing
+from .models import Listing, Universities
 from .models import CampusLocation
 from dotenv import load_dotenv, find_dotenv
 import cloudinary
@@ -43,7 +43,7 @@ def login_view(request): #Login page view
             login(request, user) #Call django login method
             return redirect('Home') #Redirect user to home page
         else:
-            messages.error(request, 'Username or Password does not exist!') #User login failed
+            return redirect('signup')  #User login failed
 
     context = {'page': page} #Will be accessible from template (May need to adjust later?)
     return render(request, "base/loginPage.html", context)
@@ -102,6 +102,7 @@ def campusPickup(request):
     return render(request, 'base/campusPickup.html', {'locations': locations})
 
 def signup_view(request):
+    universities = Universities.objects.all()
     form = CustomUserCreationForm()
 
     if request.method == 'POST':
@@ -112,13 +113,11 @@ def signup_view(request):
             user.name = user.name.lower()
             user.save()
             login(request, user)
-            messages.success(request, "Account created! Welcome to Niner Market!")
-            return redirect('home')
+            return redirect('Home')
         else:
             messages.error(request, "An error occured during registration")
 
-
-    return render(request, 'base/login_register.html', {'form': form})
+    return render(request, 'base/register.html', {'universities': universities})
 
 def listing_detail(request, listing_id):
     listing = get_object_or_404(Listing, id=listing_id)

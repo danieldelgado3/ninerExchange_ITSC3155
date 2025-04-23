@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+
 # Create your models here.
 
 class Listing(models.Model):
@@ -18,6 +19,15 @@ class Listing(models.Model):
 
 class CustomUser(AbstractUser): #gives everything django user model has, plus a name field
     name = models.CharField(max_length=200, null=True)
+    university = models.ForeignKey('Universities', on_delete=models.SET_NULL, null=True, blank=True)
+
+class Universities(models.Model):
+    name = models.CharField(max_length=255)
+    domain = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
 
 class CampusLocation(models.Model):
     name = models.CharField(max_length=255)
