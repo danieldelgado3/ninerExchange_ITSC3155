@@ -35,6 +35,7 @@
         </div>
         <div class="middle">
           <h1>{% block header_title %}NinerMarket{% endblock %}</h1>
+          {% block search_bar %}{% endblock %}
         </div>
         <div class="header-right">
           <a href="{% url 'settings' %}"
@@ -54,10 +55,11 @@
           <a href="{% url 'Home' %}"
             ><img src="{% static 'images/home.png' %}" alt="Home"
           /></a>
-          <a href="{% url 'campus_map' %}"><img class="map" src="{% static 'images/map2.png' %}" alt="Maps" /></a>
+          <a href="{% url 'search' %}"><img src="{% static 'images/search.png' %}" alt="Search" /></a>
           <a href="{% url 'addItems' %}"
             ><img src="{% static 'images/add.png' %}" alt="Add"
           /></a>
+          <a href="{% url 'campus_map' %}"><img class="map" src="{% static 'images/map2.png' %}" alt="Maps" /></a>
           <img src="{% static 'images/notif.png' %}" alt="Notifications" />
           <img src="{% static 'images/profile.png' %}" alt="Profile" />
         </div>

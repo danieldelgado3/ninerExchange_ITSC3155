@@ -6,6 +6,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'), #Login page URL
     path('logout/', views.logout_view, name='logout'), #Logout URL
     path('settings/', views.settings, name='settings'), #Settings page 
+    path('search/', views.search, name='search'), #Search page URL
     path('addItems/', views.addItems, name='addItems'), #addItem page URL
     path('addItemsToCloudinary/', views.addItemsToCloudinary, name='addItemsToCloudinary'), #addItem page URL
     path('signup/', views.signup_view, name = 'signup'),

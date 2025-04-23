@@ -1,0 +1,103 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Search - NinerMarket{% endblock %}
+
+{% block header_title %}{% endblock %}
+{% block search_bar %} 
+<div class="search">
+    <form method="get" action="{% url 'search' %}">
+        <input type="text" name="q" placeholder="Search Items">
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'base/search-styles.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="feed">
+  {% for listing in listings %} 
+    {% if forloop.counter0|divisibleby:2 %}
+      <div class="feedItemSet">
+    {% endif %}
+
+    <div class="feedItem">
+      <a href="{% url 'listing_detail' listing.id %}" class="text-decoration-none text-dark">
+        <img class="photo" src="{{ listing.image1_url }}" />
+        <div class="text">
+        <h4>{{ listing.name }}</h4>
+        <p>${{ listing.price }}</p>
+        </div>
+      </a>
+    </div>
+
+    {% if forloop.counter|divisibleby:2 or forloop.last %}
+      </div>
+    {% endif %} 
+  {% endfor %}
+</div>
+{% endblock %}
+
+
+
+<!-- <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search</title>
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'base/search-styles.css' %}" />
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <div class="search">
+                <form method="get" action="{% url 'search' %}">
+                    <input type="text" name="q" placeholder="Search Items">
+                </form>
+            </div>
+
+
+
+        </header>
+
+
+
+        <div class="feed">
+            <div class="feedItemSet">
+                {% for listing in listings %}
+                {% if forloop.counter0|divisibleby:2 %}
+                <div class="feedItemSet">
+                {% endif %}
+
+                    <div class="feedItem">
+                        <a href="{% url 'listing_detail' listing.id %}" class="text-decoration-none text-dark">
+                            <img class="photo" src="{{ listing.image1_url }}" />
+                            <div class="text">
+                                <h4>{{ listing.name }}</h4>
+                                <p>${{ listing.price }}</p>
+                            </div>
+                        </a>
+                    </div>
+
+                {% if forloop.counter|divisibleby:2 or forloop.last %}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <footer>
+            <div class="options">
+                <a href="{% url 'Home' %}"><img src="{% static 'images/home.png' %}" alt="Home" /></a>
+                <img src="{% static 'images/search.png' %}" alt="Search" />
+                <a href="{% url 'addItems' %}"><img src="{% static 'images/add.png' %}" alt="Add" /></a>
+                <img src="{% static 'images/notif.png' %}" alt="Notifications" />
+                <img src="{% static 'images/profile.png' %}" alt="Profile" />
+            </div>
+        </footer>
+    </div>
+</body> -->

@@ -52,6 +52,14 @@ def login_view(request): #Login page view
 def settings(request): #Settings Page View
     return render(request, 'base/settings.html')
 
+def search(request): #Search Page View
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    listings = Listing.objects.filter(name__icontains=q) 
+
+    context = {'listings': listings, 'size': listings.count()}
+    return render(request, 'base/search.html', context)
+
 def addItems(request):
     return render(request, 'base/addItems.html')
 
