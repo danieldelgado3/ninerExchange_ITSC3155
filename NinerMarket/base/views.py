@@ -108,6 +108,8 @@ def campusPickup(request):
     return render(request, 'base/campusPickup.html', {'locations': locations})
 
 def signup_view(request):
+    page = 'signup'
+
     universities = Universities.objects.all()
     form = CustomUserCreationForm()
 
@@ -121,9 +123,10 @@ def signup_view(request):
             login(request, user)
             return redirect('Home')
         else:
+            print(form.errors)
             messages.error(request, "An error occured during registration")
 
-    return render(request, 'base/register.html', {'universities': universities})
+    return render(request, 'base/register.html',{'form': form, 'universities': universities})
 
 @login_required
 def listing_detail(request, listing_id):
