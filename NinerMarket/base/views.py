@@ -4,7 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
-
 from django.conf import settings
 from .models import Listing, Universities
 from .models import CampusLocation
@@ -91,6 +90,8 @@ def addItemsToCloudinary(request): #AddItem Page View
                 
                 # get the URL of the uploaded image and adds it to the list
                 image_urls.append(upload_result['url'])
+
+                print(upload_result['url'])
 
         while len(image_urls) < 3: #None images if user does not upload three images
             image_urls.append(None)
