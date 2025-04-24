@@ -12,4 +12,7 @@ urlpatterns = [
     path('signup/', views.signup_view, name = 'signup'),
     path('listing/<int:listing_id>/', views.listing_detail, name='listing_detail'),
     path('campus-map/', views.campusPickup, name='campus_map'), #Campus Map
+    path('listing/<int:listing_id>/delete/', views.delete_listing, name='delete_listing'),
+    path('profile/', views.profile, name='profile'),
+    path('notifications/', views.notifications, name='notifications'),
 ]
