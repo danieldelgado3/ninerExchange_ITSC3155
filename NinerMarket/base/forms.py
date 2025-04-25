@@ -7,12 +7,18 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ['university', 'name','username', 'email', 'password1', 'password2']
 
-    def email_validation(self):
+    def clean_email(self):
         email = self.cleaned_data.get('email')
         if not email.endswith('@charlotte.edu'):
             raise forms.ValidationError("Email not valid at this time")
         return email
     
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username').lower()
+        if CustomUser.objects.filter(username=username).exists():
+            raise forms.ValidationError("This username is already in use! Please try again with a different username.")
+        return username
 
 
     
