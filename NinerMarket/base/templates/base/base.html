@@ -37,6 +37,7 @@
           <h1>{% block header_title %}NinerMarket{% endblock %}</h1>
           {% block search_bar %}{% endblock %}
         </div>
+        {% block settings_button %}
         <div class="header-right">
           <a href="{% url 'settings' %}"
             ><img
@@ -46,6 +47,7 @@
             />
           </a>
         </div>
+        {% endblock %}
       </header>
 
       {% block content %} {% endblock %}

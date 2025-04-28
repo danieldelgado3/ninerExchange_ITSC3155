@@ -1,33 +1,3 @@
-
-body {
-  margin: 0;
-  font-family: "Inter", sans-serif;
-  font-style: normal;
- 
-}
-
-header {
-  position: relative;
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  padding: 10px 5px;
-  border-bottom: 1px solid #ddd;
-  height: 30px;
-}
-
-.middle {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%); 
-  margin-top: 5px;
-  h1 {
-    font-size: 17px;
-    letter-spacing: 0.2px;
-    font-weight: 600;
-  }
-}
-
 .settings {
   margin-top: 20px;
   height: 750px;
@@ -52,34 +22,6 @@ header {
     margin-left: 375px;
   }
 }
-
-.header-right {
-  display: flex;
-  align-items: center;
-  margin-right: auto;
-  margin-top: 0.5rem;
-}
-
-footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top: 1px solid #ddd;
-    position: fixed;
-  z-index: 1000;
-    bottom: 0;
-        left: 0;
-  width: 100%;
-}
-
-.map{
-  height: 32px;
-  width: 32px;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-bottom: 4px;
-}
-
 
 @media (min-width: 750px) {
 }
