@@ -25,14 +25,9 @@
       "
     >
       <div style="display: flex; align-items: center; gap: 10px">
-        <a href="{% url 'settings' %}">
-          <img
-            class="menuPic"
-            src="{% static 'images/menu.svg' %}"
-            alt="Open menu"
-            style="height: 40px"
-          />
-        </a>
+        <a href="javascript:history.back()">
+            <img class="menuPic" src="{% static 'images/Chevron_Left.png' %}" alt="Go back" />
+          </a>
         <h1 style="margin: 0">UNC Charlotte Campus Map</h1>
       </div>
       <div>
@@ -76,20 +71,45 @@
       const locations = [
         {
           name: "Student Union",
-          coords: [300, 850],
+          coords: [930, 1010],
           address: "8845 CRAVER RD, Charlotte NC 28223",
         },
         {
           name: "Epic Building",
-          coords: [420, 950],
+          coords: [960, 580],
           address: "8700 PHILLIPS RD, Charlotte NC 28223",
         },
         {
           name: "Atkins Library",
-          coords: [370, 780],
+          coords: [725, 1075],
           address: "410 LIBRARY LN, Charlotte NC 28223",
         },
-        { name: "Star Quad", coords: [500, 700] },
+        { name: "Science building", 
+          coords: [925, 1200] ,
+          address: "9029 CRAVER RD, Charlotte NC 28223",
+        },
+        {
+          name: "South Village Crossing",
+          coords: [500, 950],
+          address: "8917 JOHNSON ALUMNI WAY, Charlotte NC 28223"
+
+        },
+        {
+            name: "Bioinformatics",
+            coords: [1240, 580],
+            address: "9331 ROBERT D SNYDER RD, Charlotte NC 28223"
+        },
+        {
+            name: "Belk Gym",
+            coords: [700, 910],
+            address: "8911 UNIVERSITY RD, Charlotte NC 28223"
+        },
+        {
+            name: "Fretwell",
+            coords: [735, 1250],
+            address: "9203 MARY ALEXANDER RD, Charlotte NC 28223"
+        }
+
         // Add more buildings here
       ];
 
