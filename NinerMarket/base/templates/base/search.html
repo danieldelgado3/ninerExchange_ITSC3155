@@ -17,6 +17,45 @@
 
 {% block content %}
 
+<form method="get" style="margin-bottom: 20px; display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;">
+    <input type="hidden" name="q" value="{{ request.GET.q }}">
+  
+    <label>
+      Condition:
+      <select name="condition">
+        <option value="">All</option>
+        <option value="new" {% if request.GET.condition == "new" %}selected{% endif %}>New</option>
+        <option value="used_good" {% if request.GET.condition == "used_good" %}selected{% endif %}>Used - Good</option>
+        <option value="used_fair" {% if request.GET.condition == "used_fair" %}selected{% endif %}>Used - Fair</option>
+      </select>
+    </label>
+  
+    <label>
+      Availability:
+      <select name="available">
+        <option value="">All</option>
+        <option value="true" {% if request.GET.available == "true" %}selected{% endif %}>Available</option>
+        <option value="false" {% if request.GET.available == "false" %}selected{% endif %}>Unavailable</option>
+      </select>
+    </label>
+  
+    <label>
+      Sort By:
+      <select name="sort">
+        <option value="">Default</option>
+        <option value="new" {% if request.GET.sort == "new" %}selected{% endif %}>Newest to Oldest</option>
+        <option value="old" {% if request.GET.sort == "old" %}selected{% endif %}>Oldest to Newest</option>
+        <option value="price_asc" {% if request.GET.sort == "price_asc" %}selected{% endif %}>Price: Low to High</option>
+        <option value="price_desc" {% if request.GET.sort == "price_desc" %}selected{% endif %}>Price: High to Low</option>
+      </select>
+    </label>
+  
+    <div style="width: 100%; text-align: center; margin-top: 10px;">
+      <button type="submit">Apply</button>
+      <a href="{% url 'search' %}?q={{ request.GET.q }}" class="reset-btn" style="margin-left: 10px;">Reset</a>
+    </div>
+  </form>
+
 <div class="feed">
   {% for listing in listings %} 
     {% if forloop.counter0|divisibleby:2 %}
