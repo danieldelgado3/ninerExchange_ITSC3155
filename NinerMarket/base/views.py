@@ -56,7 +56,9 @@ def login_view(request): #Login page view
 
 @login_required
 def settings(request): #Settings Page View
-    return render(request, 'base/settings.html')
+    return render(request, 'base/settings.html', {
+        'user': request.user
+    })
 
 @login_required
 def search(request): #Search Page View
