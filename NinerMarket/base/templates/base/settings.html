@@ -23,6 +23,14 @@
     <img src="{% static 'images/Chevron_Right.png' %}" alt="select" />
   </a>
   </div>
+  {% if user.is_staff %}
+    <div class="option">
+  <a href="/admin/"</a>
+    <p>Admin</p>
+    <img src="{% static 'images/Chevron_Right.png' %}" alt="select" />
+  </a>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}
 
