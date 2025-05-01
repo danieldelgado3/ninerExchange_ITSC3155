@@ -87,7 +87,7 @@ def search(request): #Search Page View
     elif sort == 'price_desc':
         listings = listings.order_by('-price')
 
-    context = {'listings': listings, 'size': listings.count()}
+    context = {'listings': listings, 'size': listings.count(), 'q': q, 'condition': condition, 'available': available, 'sort': sort}
     return render(request, 'base/search.html', context)
 
 def addItems(request):
