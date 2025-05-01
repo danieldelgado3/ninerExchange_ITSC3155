@@ -66,6 +66,27 @@ def search(request): #Search Page View
 
     listings = Listing.objects.filter(name__icontains=q) 
 
+    condition = request.GET.get('condition')
+    available = request.GET.get('available')
+    sort = request.GET.get('sort')
+
+    if condition:
+        listings = listings.filter(condition=condition)
+
+    if available == 'true':
+        listings = listings.filter(available=True)
+    elif available == 'false':
+        listings = listings.filter(available=False)
+
+    if sort == 'new':
+        listings = listings.order_by('-created_at')
+    elif sort == 'old':
+        listings = listings.order_by('created_at')
+    elif sort == 'price_asc':
+        listings = listings.order_by('price')
+    elif sort == 'price_desc':
+        listings = listings.order_by('-price')
+
     context = {'listings': listings, 'size': listings.count()}
     return render(request, 'base/search.html', context)
 
