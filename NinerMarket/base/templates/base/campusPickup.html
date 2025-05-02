@@ -1,71 +1,30 @@
-
+{% extends 'base/base.html' %}
 {% load static %}
 
 
+{% block header_title %}UNC Charlotte Campus Map{% endblock %}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>UNC Charlotte Campus Map</title>
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-      #map {
-        height: 75vh;
-        width: 100%;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Wrap the image and title in a flexbox container -->
-    <div
-      style="
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-      "
-    >
-      <div style="display: flex; align-items: center; gap: 10px">
-        <a href="javascript:history.back()">
-            <img class="menuPic" src="{% static 'images/Chevron_Left.png' %}" alt="Go back" />
-          </a>
-        <h1 style="margin: 0">UNC Charlotte Campus Map</h1>
-      </div>
-      <div>
-        <a href="{% url 'Home' %}">
-          <img
-            class="Niner_Market"
-            src="{% static 'images/Niner_Market.png' %}"
-            alt="Open menu"
-            style="height: 100px"
-          />
-        </a>
-      </div>
-    </div>
+{% block extra_css %}
+  <!-- Map-specific CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 80vh;
+      width: 80%;
+      margin: 0 auto; /* Center the map horizontally */
+      margin-top: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #000000;
+      
+    }
+  </style>
+{% endblock %}
+
+
+{% block content %}
 
     <div id="map"></div>
-
-    <footer>
-    <div class="options">
-      <a href="{% url 'Home' %}"
-        ><img src="{% static 'images/home.png' %}" alt="Home"
-      /></a>
-      <a href="{% url 'search' %}"><img src="{% static 'images/search.png' %}" alt="Search" /></a>
-      <a href="{% url 'addItems' %}"
-        ><img src="{% static 'images/add.png' %}" alt="Add"
-      /></a>
-      <a href="{% url 'campus_map' %}"><img class="map" src="{% static 'images/map2.png' %}" alt="Maps" /></a>
-                <a href="{% url 'notifications' %}">
-        <img src="{% static 'images/notif.png' %}" alt="Notifications" />
-      </a>
-               <a href="{% url 'profile' %}">
-        <img src="{% static 'images/profile.png' %}" alt="Profile" />
-      </a>
-    </div>
-    </footer>
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -160,8 +119,7 @@
         L.marker(loc.coords).addTo(map).bindPopup(popupContent);
       });
     </script>
-  </body>
-  
-</html>
+
+{% endblock %}
 
 
