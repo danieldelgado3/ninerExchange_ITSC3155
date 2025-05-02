@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'messaging.apps.MessagingConfig',
     'cloudinary',
     'cloudinary_storage',
+    'django.contrib.humanize',
 ]
 
 AUTH_USER_MODEL = 'base.CustomUser'

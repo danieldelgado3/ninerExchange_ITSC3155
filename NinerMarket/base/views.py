@@ -9,6 +9,7 @@ from django.conf import settings
 from .models import Listing, Universities
 from .models import CampusLocation
 from dotenv import load_dotenv, find_dotenv
+from messaging.models import Message
 import cloudinary
 import cloudinary.uploader
 import os
@@ -249,10 +250,29 @@ def campusPickup(request):
     locations = CampusLocation.objects.all()
     return render(request, 'base/campusPickup.html', {'locations': locations})
 
+from messaging.models import Conversation, Message
+
+@login_required
 def notifications(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    return render(request, 'base/notifications.html')
+    conversations = Conversation.objects.filter(participants=request.user).order_by('-updated_at')
+
+    chat_previews = []
+    for convo in conversations:
+        latest_message = convo.messages.last()
+        if latest_message:
+            chat_previews.append({
+                "conversation_id": convo.id,
+                "listing_name": convo.listing.name,
+                "sender": latest_message.sender.username,
+                "content": latest_message.content,
+                "created_at": latest_message.created_at,
+                "is_unread": not latest_message.is_read and latest_message.sender != request.user
+            })
+
+    return render(request, 'base/notifications.html', {
+        'chat_previews': chat_previews
+    })
+
 
 @login_required
 def delete_listing(request, listing_id):

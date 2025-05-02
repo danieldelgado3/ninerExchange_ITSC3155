@@ -1,14 +1,40 @@
-{% extends 'base/base.html' %}
 
+{% load static %}
 {% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="notif.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
 <div class="container mt-4">
-    <h2>Conversation about: {{ conversation.listing.name }}</h2>
-    
+ <!--  <h2>Conversation about: {{ conversation.listing.name }}</h2>-->
+          <header>
+        <div class="header-left">
+          <a href="{% url 'notifications' %}" class="menu-open hide-desktop"
+            ><img class="menuPic" src="{% static 'images/Chevron_Left.png' %}" alt="Open menu" />
+          </a>
+          <div class="pic">
+          <img class="profilePic" src="{{ conversation.messages.first.sender.get_profile_picture_url }}"/>
+          </div>
+          <div class="profileDetails">
+            <h3>{{ conversation.messages.first.sender.username }}</h3>
+                <p>Active 11m ago</p>
+          </div>
+        </div>
+      </header>
+              <div class="about">
+            <img class="listing" src="{{ conversation.listing.image1_url }}"/>
+            <h3>{{ conversation.listing.name }}</h3>
+            <p>${{ conversation.listing.price }}</p>
+        </div>
     <div class="messages-container" id="messages-container">
         {% for message in conversation.messages.all %}
             <div class="message {% if message.sender == conversation.listing.seller %}seller{% else %}buyer{% endif %} {% if not message.is_read and message.sender != request.user %}unread{% endif %}">
                 <div class="message-content">
-                    <strong>{{ message.sender.username }}</strong>
                     {% if not message.is_read and message.sender != request.user %}
                         <span class="new-message-indicator">New</span>
                     {% endif %}
@@ -20,57 +46,180 @@
         {% endfor %}
     </div>
 
-    <form method="post" class="mt-4" id="message-form">
-        {% csrf_token %}
-        <div class="form-group">
-            <textarea name="content" class="form-control" rows="3" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Send Message</button>
-    </form>
+<form method="post" class="message-form">
+  {% csrf_token %} 
+  <div class="textarea-with-button">
+    <textarea name="content" class="form-control" placeholder="Message..." rows="2" required></textarea>
+    <button type="submit" class="send-btn">
+      <img src="{% static 'images/Chevron_Right.png' %}" alt="Send" />
+    </button>
+  </div>
+</form>
 </div>
 
 <style>
-    .messages-container {
-        max-height: 500px;
-        overflow-y: auto;
-        margin-bottom: 20px;
-        padding: 10px;
-        background-color: #f8f9fa;
-        border-radius: 10px;
-    }
-    
-    .message {
-        margin: 10px 0;
-        padding: 10px;
-        border-radius: 10px;
-        max-width: 70%;
-        position: relative;
-    }
-    
-    .seller {
-        background-color: #007bff;
-        color: white;
-        margin-left: auto;
-        margin-right: 0;
-    }
-    
-    .buyer {
-        background-color: #28a745;
-        color: white;
-        margin-right: auto;
-        margin-left: 0;
-    }
+body {
+  font-family: 'Inter', sans-serif;
+}
+    header {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  margin-top: 15px;
+  padding: 10px 5px;
+  border-bottom: 1px solid #ddd;
+  height: 50px;
+}
+
+.profilePic {
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-left: 14px;
+  text-decoration: none;
+}
+
+.profileDetails {
+  margin-top: -5px;
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  h3 {
+    margin: 0;
+  }
+  p {
+    margin: 0;
+    font-weight: lighter;
+    font-size: 13px;
+  }
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  margin-top: 0.5rem;
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+   border-bottom: 1px solid #ddd;
+  img {
+    height: 150px;
+    width: 150px;
+  }
+  h3 {
+    margin: 0%;
+  }
+  p {
+    margin-top: 0;
+  }
+}
+
+.messages-container {
+  overflow-y: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+  height: 500px;
+ 
+}
+
+.message {
+  margin: 10px 0;
+padding-top: 0.1px;
+padding-bottom: 0.1px;
+  padding-left: 10px;
+  border-radius: 10px;
+  max-width: 70%;
+  position: relative;
+  font-size: 13px;
+}
+
+.seller {
+  background-color: black;
+  color: white;
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.buyer {
+  background-color: #ddd;
+  color: black;
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.textarea-with-button {
+  position: relative;
+}
+
+.textarea-with-button textarea {
+width: 350px;
+padding-top: 13px;
+  box-sizing: border-box;
+    border: 1px solid #444; 
+  border-radius: 5px;
+  text-align: left;
+   height: auto;
+}
+
+textarea::placeholder {
+  color: #888;
+  font-size: 14px;
+  text-align: left;
+  padding-top: 4px;
+  padding-left: 4px;
+}
+
+
+.send-btn {
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  padding: 0;
+  
+  width: 20px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.send-btn img {
+  width: 100px;
+  height: 40px;
+  margin-right: 25px;
+  display: block;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+}
     
     .seller .text-muted {
         color: rgba(255, 255, 255, 0.7) !important;
     }
     
     .buyer .text-muted {
-        color: rgba(255, 255, 255, 0.7) !important;
+        color: rgb(92, 89, 89)  !important;
     }
     
     .message-content {
         padding: 5px;
+        display: flex;
+        flex-direction: column;
     }
 
     .new-message-indicator {
