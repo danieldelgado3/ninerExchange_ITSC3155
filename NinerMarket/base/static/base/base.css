@@ -2,17 +2,20 @@ body {
   margin: 0;
   font-family: "Inter", sans-serif;
   font-style: normal;
+  background: #fff;
+  color: #222;
 }
 
 header {
   position: relative;
   display: flex;
   align-items: center;
-  margin-top: 30px;
   padding: 10px 5px;
   border-bottom: 1px solid #ddd;
-  height: 36px;
-  
+  height: 56px;
+  background-color: #005035;
+  color: #fff;
+  width: 100%;
 }
 
 .logo{
@@ -20,6 +23,7 @@ header {
   height: 50px;
   margin-left: 13px;
   margin-bottom: 20px;
+  filter: brightness(0) invert(1);
 }
 
 .middle {
@@ -28,11 +32,12 @@ header {
   justify-content: center;
   left: 50%;
   transform: translateX(-50%); /* Centers the text */
-  h1 {
-    font-size: 17px;
-    letter-spacing: 0.2px;
-    font-weight: 800;
-  }
+}
+
+.middle h1 {
+  font-size: 17px;
+  letter-spacing: 0.2px;
+  font-weight: 800;
 }
 
 .menuPic {
@@ -47,7 +52,6 @@ header {
   margin-top: -10px;
 }
 
-
 footer {
   display: flex;
   align-items: center;
@@ -55,11 +59,12 @@ footer {
   border-top: 1px solid #ddd;
   position: fixed;
   z-index: 1000;
-    bottom: 0;
-    left: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
-  margin-bottom: 4px;
-  background-color: white;
+  background-color: #005035;
+  color: #fff;
+  height: 56px;
 }
 
 footer .options a {
@@ -74,6 +79,11 @@ footer .options a {
   margin-bottom: -3px;
 }
 
+.card, .content, .container, .list-group-item {
+  background: #fff;
+  color: #222;
+  border: 1px solid #ddd;
+}
 
 @media (min-width: 750px) {
 }
